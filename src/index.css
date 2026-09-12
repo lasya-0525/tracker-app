@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,700&family=Caveat:wght@600;700&family=Lora:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: theme('colors.ink');
+}
+
+.stripe-bg {
+  background-image: repeating-linear-gradient(
+    90deg,
+    theme('colors.stripea') 0px,
+    theme('colors.stripea') 18px,
+    theme('colors.stripeb') 18px,
+    theme('colors.stripeb') 36px
+  );
+}
+
+.paper-card {
+  background-color: theme('colors.paper');
+  background-image:
+    repeating-linear-gradient(rgba(160, 180, 200, 0.35) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(160, 180, 200, 0.35) 0 1px, transparent 1px 28px);
+  background-size: 28px 28px;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(60, 30, 40, 0.15);
+  clip-path: polygon(
+    0% 2%, 3% 0%, 97% 1%, 100% 3%,
+    99% 97%, 96% 100%, 4% 99%, 0% 96%
+  );
+}
+
+.progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(140, 63, 99, 0.15);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: theme('colors.plum');
+  border-radius: 999px;
+}
+
+.checkbox {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+  border-radius: 50%;
+  border: 2px solid theme('colors.plum');
+  display: inline-block;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.checkbox:active {
+  transform: scale(0.88);
+}
+.checkbox-done {
+  background: theme('colors.done');
+  border-color: theme('colors.done');
+}
+
+.tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: theme('colors.plum');
+}
+
+.link {
+  color: theme('colors.ink');
+  text-decoration: underline;
+  text-decoration-color: theme('colors.gold');
+  text-underline-offset: 2px;
+}
+
+.nav-btn {
+  font-family: 'Lora', serif;
+  font-size: 0.78rem;
+  color: theme('colors.plum');
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(140, 63, 99, 0.3);
+  border-radius: 999px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.nav-btn:hover {
+  background: rgba(140, 63, 99, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
