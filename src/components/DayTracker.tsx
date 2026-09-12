@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getDayPlan, addDays } from "../lib/dayPlan";
 import { PROGRAM_START } from "../data/roadmap";
+import { loadChecks, saveChecks } from "../lib/supabase";
 import Sticker from "./Sticker";
 import RestDay from "./RestDay";
 
@@ -22,23 +23,6 @@ interface Item {
   tag?: string;
 }
 
-function loadChecks(dateKey: string): Checks {
-  try {
-    const raw = localStorage.getItem(`tracker:${dateKey}`);
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveChecks(dateKey: string, checks: Checks) {
-  try {
-    localStorage.setItem(`tracker:${dateKey}`, JSON.stringify(checks));
-  } catch {
-    // storage unavailable — fail silently, nothing to persist to
-  }
-}
-
 export default function DayTracker() {
   const [viewDate, setViewDate] = useState<Date>(() => {
     const today = new Date();
@@ -47,10 +31,11 @@ export default function DayTracker() {
     return today < start ? start : today;
   });
   const plan = useMemo(() => getDayPlan(viewDate), [viewDate]);
-  const [checks, setChecks] = useState<Checks>(() => loadChecks(plan.date));
+  const [checks, setChecks] = useState<Checks>({});
 
   useEffect(() => {
-    setChecks(loadChecks(plan.date));
+    setChecks({});
+    loadChecks(plan.date).then(setChecks);
   }, [plan.date]);
 
   function toggle(id: string) {
