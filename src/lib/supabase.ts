@@ -5,10 +5,21 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_KEY
 );
 
+function generateId(): string {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  // fallback for older browsers
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
+}
+
 function getUserId(): string {
   let id = localStorage.getItem("tracker:userId");
   if (!id) {
-    id = crypto.randomUUID();
+    id = generateId();
     localStorage.setItem("tracker:userId", id);
   }
   return id;
