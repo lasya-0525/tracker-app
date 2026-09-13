@@ -29,7 +29,7 @@ const HINTS: Record<string, string> = {
   yoga: "10 minutes is enough. Move the body, clear the head.",
   ready: "Show up sharp. Confidence starts before you open your laptop.",
   "commute-in": "Passive learning still stacks. Use every minute.",
-  dsa: "One problem a day = 365 patterns by year's end. Keep going.",
+  dsa: "One problem down. ~80 total by December — you're building real pattern recognition.",
   ai: "The people who understand agents will build what's next.",
   sd: "System design is just thinking at scale. You already do this.",
   data: "SQL fluency is money. Make it yours.",
