@@ -21,7 +21,23 @@ interface Item {
   label: string;
   url?: string;
   tag?: string;
+  hint?: string;
 }
+
+const HINTS: Record<string, string> = {
+  wake: "The day starts before anyone else wakes up. That's your edge.",
+  yoga: "10 minutes is enough. Move the body, clear the head.",
+  ready: "Show up sharp. Confidence starts before you open your laptop.",
+  "commute-in": "Passive learning still stacks. Use every minute.",
+  dsa: "One problem a day = 365 patterns by year's end. Keep going.",
+  ai: "The people who understand agents will build what's next.",
+  sd: "System design is just thinking at scale. You already do this.",
+  data: "SQL fluency is money. Make it yours.",
+  network: "One DM. One comment. One email. That's all it takes today.",
+  dinner: "Fuel > hustle. You can't perform on empty.",
+  journal: "You're building a person, not just a resume.",
+  sleep: "Sleep is when your brain cements everything you learned today.",
+};
 
 export default function DayTracker() {
   const [viewDate, setViewDate] = useState<Date>(() => {
@@ -112,6 +128,8 @@ export default function DayTracker() {
           {plan.isRestDay ? (
             <RestDay key="rest" />
           ) : (
+            <div className="relative">
+              <Sticker src={bowCross} alt="" className="absolute -top-7 -right-3 w-20 md:w-24 z-10" rotate={12} />
             <motion.div
               key={plan.date}
               initial={{ opacity: 0, y: 12 }}
@@ -120,7 +138,6 @@ export default function DayTracker() {
               transition={{ duration: 0.25 }}
               className="paper-card relative p-6 md:p-8"
             >
-              <Sticker src={bowCross} alt="" className="absolute -top-6 -right-4 w-16 md:w-20" rotate={12} />
 
               <div className="progress-track mb-2">
                 <motion.div
@@ -134,39 +151,50 @@ export default function DayTracker() {
               </p>
 
               <ul className="space-y-3">
-                {items.map((item) => (
-                  <li key={item.id}>
-                    <label className="flex items-start gap-3 cursor-pointer group">
-                      <span
-                        onClick={() => toggle(item.id)}
-                        className={`checkbox ${checks[item.id] ? "checkbox-done" : ""}`}
-                      />
-                      <span className="flex-1 font-body text-[15px] leading-snug">
-                        {item.tag && <span className="tag">{item.tag} </span>}
-                        {item.url ? (
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className={`link ${checks[item.id] ? "line-through text-ink/40" : ""}`}
-                          >
-                            {item.label}
-                          </a>
-                        ) : (
-                          <span className={checks[item.id] ? "line-through text-ink/40" : ""}>{item.label}</span>
-                        )}
-                      </span>
-                    </label>
-                  </li>
-                ))}
+                {items.map((item) => {
+                  const done = checks[item.id];
+                  const hint = HINTS[item.id];
+                  return (
+                    <li key={item.id}>
+                      <label className="flex items-start gap-3 cursor-pointer group">
+                        <span
+                          onClick={() => toggle(item.id)}
+                          className={`checkbox ${done ? "checkbox-done" : ""}`}
+                        />
+                        <span className="flex-1 font-body text-[15px] leading-snug">
+                          {item.tag && <span className="tag">{item.tag} </span>}
+                          {item.url ? (
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className={`link ${done ? "line-through text-ink/40" : ""}`}
+                            >
+                              {item.label}
+                            </a>
+                          ) : (
+                            <span className={done ? "line-through text-ink/40" : ""}>{item.label}</span>
+                          )}
+                          {!done && hint && (
+                            <p className="text-[11px] text-ink/40 italic mt-0.5 font-body">{hint}</p>
+                          )}
+                          {done && (
+                            <p className="text-[11px] text-plum/60 italic mt-0.5 font-body">done ✓</p>
+                          )}
+                        </span>
+                      </label>
+                    </li>
+                  );
+                })}
               </ul>
 
-              <div className="flex justify-center gap-6 mt-8 opacity-80">
-                <img src={camera} className="w-10 select-none" alt="" />
-                <img src={cassette} className="w-10 select-none" alt="" />
-                <img src={headphones} className="w-10 select-none" alt="" />
+              <div className="flex justify-center gap-8 mt-8 opacity-90">
+                <img src={camera} className="w-16 md:w-20 select-none" alt="" />
+                <img src={cassette} className="w-16 md:w-20 select-none" alt="" />
+                <img src={headphones} className="w-16 md:w-20 select-none" alt="" />
               </div>
             </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </div>
